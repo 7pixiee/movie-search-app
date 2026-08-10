@@ -28,3 +28,5 @@ function saveMovie(movie) {
         })
     }
 }
+
+module.exports = { saveMovie, getMovieById };
