@@ -2,7 +2,7 @@
     --text-primary: #ffffff;
     --text-secondary: #a5a8b8;
 
-    --sidebar-width: 240px;
+    --sidebar-width: 280px;
 
     --radius-sm: 8px;
     --radius-lg: 18px;
@@ -25,19 +25,28 @@ body {
     min-height: 100vh;
 }
 
+a {
+    text-decoration: none;
+    color: var(--text-secondary);
+}
+
 .sidebar {
     width: var(--sidebar-width);
     min-height: 100vh;
-    padding: 30px 20px;
+    padding: 30px 45px;
 
     background-color: rgba(187, 187, 231, 0.167);
-    border-right: 1px solid var(--border);
+    border-right: 1px solid white;
+}
+
+hr {
+    margin: 30px 0;
 }
 
 .logo {
+    color: #a5a8b8;
     font-size: 24px;
     font-weight: 700;
-    margin-bottom: 40px;
 }
 
 .nav-item {
@@ -45,11 +54,18 @@ body {
     align-items: center;
     gap: 12px;
 
-    padding: 12px 14px;
+    padding: 5px 0px;
     margin-bottom: 8px;
 
-    color: var(--text-secondary);
     border-radius: var(--radius-sm);
+}
+
+.nav-icon {
+    width: 35px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
 }
 
 .nav-item:hover {
@@ -66,9 +82,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
-    margin: 30px;
-    height: 100px;
+
+    margin-bottom: 30px;
     gap: 20px;
 }
 
@@ -102,4 +117,60 @@ body {
     border: none;
     color: white;
     cursor: pointer;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.main-content {
+    padding: 30px;
+    overflow: hidden;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    color: #ffffff;
+    margin: 15px 0;
+}
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+}
+
+.movie-card {
+    border: 1px solid white;
+    border-radius: var(--radius-sm);
+
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.movie-card:hover {
+    transform: translateY(-4px);
+}
+
+.movie-card img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+}
+
+.movie-info {
+    padding: 12px;
+}
+
+.movie-info h3 {
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.movie-info p {
+    color: var(--text-secondary);
+    font-size: 12px;
 }
