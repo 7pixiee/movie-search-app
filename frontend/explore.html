@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nyxflix</title>
+    <title>Explore | Nyxflix</title>
     <link rel="stylesheet" href="CSS/style.css">
 </head>
 
@@ -17,11 +17,11 @@
             </div>
             <hr>
             <nav class="sidebar-nav">
-                <a href="index.html" class="nav-item active">
+                <a href="index.html" class="nav-item">
                     <span class="nav-icon">⌂</span>
                     <span>Home</span>
                 </a>
-                <a href="explore.html" class="nav-item">
+                <a href="explore.html" class="nav-item active">
                     <span class="nav-icon">⌕</span>
                     <span>Explore</span>
                 </a>
@@ -54,37 +54,33 @@
                 </div>
             </header>
 
-            <section class="hero">
-                <img src="#" alt="Movie title">
-                <div class="movie-info">
-                    <h3 class="movie-name"></h3>
-                    <p class="movie-genre"></p>
-                </div>
-            </section>
-
             <section>
-                <div class="section-header">
-                    <h2>Popular Movies</h2>
-                    <a href="explore.html" class="view-all">
-                        View All
-                    </a>
+                <div class="header-section">
+                <h2>Explore</h2>
+
+                <div class="categories">
+                    <div class="type">
+                        <button class="all btn">All</button>
+                        <button class="movies btn">Movies</button>
+                        <button class="series btn">Series</button>
+                    </div>
+
+                    <div class="sortBy">
+                        <button class="year btn">Year ⮟</button>
+                        <button class="rating btn">Rating ⮟</button>
+                    </div>
+                </div>
                 </div>
 
                 <div class="movie-grid">
                 </div>
 
-                 <div class="section-header">
-                    <h2>Latest Movies</h2>
-                    <a href="explore.html" class="view-all">
-                        View All
-                    </a>
-                </div>
-
-                <div class="movie-grid">
+                <div class="footer-section">
+                   <button class="backward btn">&lt;</button>
+<button class="forward btn">&gt;</button>
                 </div>
             </section>
         </main>
-
     </div>
 </body>
 

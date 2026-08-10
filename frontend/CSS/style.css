@@ -130,13 +130,6 @@ hr {
     overflow: hidden;
 }
 
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    color: #ffffff;
-    margin: 15px 0;
-}
-
 .movie-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -173,4 +166,44 @@ hr {
 .movie-info p {
     color: var(--text-secondary);
     font-size: 12px;
+}
+
+/* HOME */
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    color: #ffffff;
+    margin: 15px 0;
+}
+
+/* EXPLORE */
+
+.categories {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+.type, .sortBy {
+    display: flex;
+    gap: 11px;
+}
+.btn {
+    border: none;
+    font-size: 1rem;
+    background-color: #a5a8b86d;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+}
+.btn:hover {
+    background-color: grey;
+    cursor: pointer;
+}
+.footer-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    margin: 10px 0;
 }
