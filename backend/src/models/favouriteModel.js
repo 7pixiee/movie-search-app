@@ -3,7 +3,7 @@ const db = require('../config/db');
 function addFavourite(sessionId, movieId) {
     return new Promise((resolve, reject) => {
         db.run(
-            `insert into favourites (session_id, move_id) values (?, ?)`,
+            `INSERT INTO favourites (session_id, movie_id) VALUES (?, ?)`,
             [sessionId, movieId],
             function (err) {
                 if (err) {
@@ -16,10 +16,10 @@ function addFavourite(sessionId, movieId) {
     });
 }
 
-function removeFavourite(sessionId, movieID) {
+function removeFavourite(sessionId, movieId) {
     return new Promise((resolve, reject) => {
         db.run(
-            `delete from favourites where session_id = ? and movie_id = ?`,
+            `DELETE FROM favourites WHERE session_id = ? AND movie_id = ?`,
             [sessionId, movieId],
             function (err) {
                 if (err) return reject(err);
@@ -29,10 +29,10 @@ function removeFavourite(sessionId, movieID) {
     });
 }
 
-function getFavourite(sessionId) {
+function getFavourites(sessionId) {
     return new Promise((resolve, reject) => {
-        db.run(
-            `select * from favourites join movies on favourites.movie_id = movies.id where favourites.session_id = ?`,
+        db.all(
+            `SELECT movies.* FROM favourites JOIN movies ON favourites.movie_id = movies.id WHERE favourites.session_id = ?`,
             [sessionId],
             (err, rows) => {
                 if (err) return reject(err);
@@ -42,4 +42,4 @@ function getFavourite(sessionId) {
     });
 }
 
-module.exports = { addFavourite, removeFavourite, getFavourite };
+module.exports = { addFavourite, removeFavourite, getFavourites };

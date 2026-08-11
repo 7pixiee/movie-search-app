@@ -18,7 +18,7 @@ app.use('/api/movies', movieRoutes);
 app.use('/api/genres', genreRoutes);
 app.use('/api/favourites', favouriteRoutes);
 
-app.get('/', (req, res) => res.send('Movie App Backend Running'));
+app.get('/', (req, res) => res.send('🎬 Movie App Backend Running'));
 
 app.use(errorHandler);
 

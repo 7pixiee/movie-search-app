@@ -2,13 +2,9 @@ const db = require('../config/db');
 
 function syncGenres(genres) {
     genres.forEach(g => {
-        db.run(
-            `INSERT OR IGNORE INTO genres (tmdb_genre_id, name) VALUES (?, ?)`, [g.id, g.name],
-
-        );
+        db.run(`INSERT OR IGNORE INTO genres (tmdb_genre_id, name) VALUES (?, ?)`, [g.id, g.name]);
     });
 }
-
 
 function getAllGenres() {
     return new Promise((resolve, reject) => {

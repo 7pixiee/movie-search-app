@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const tmdb = require('../config/tmdb');
 
 const IMG_BASE = 'https://image.tmdb.org/t/p/w500';
 const BACKDROP_BASE = 'https://image.tmdb.org/t/p/original';
@@ -13,7 +13,7 @@ function formatMovie(m, genreMap = {}) {
         description: m.overview,
         rating: m.vote_average,
         release_date: m.release_date || m.first_air_date || null,
-        genre: (m.genre_ids || []).map(id => genreMap[id]).filter(Boolean)
+        genres: (m.genre_ids || []).map(id => genreMap[id]).filter(Boolean)
     };
 }
 
@@ -47,7 +47,7 @@ async function fetchLatest(page = 1) {
 }
 
 async function searchMovies(query, page = 1) {
-    const genreMap = getGenreMap();
+    const genreMap = await getGenreMap();
     const res = await tmdb.get('/search/movie', { params: { query, page } });
     return {
         page: res.data.page,
