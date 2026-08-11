@@ -18,15 +18,16 @@ function saveMovie(movie) {
             );
         });
     });
+};
 
-    function getMovieById(id) {
-        return new Promise((resolve, reject) => {
-            db.get(`select * from movies where id = ?`, [id], (err, row) => {
-                if (err) return reject(err);
-                resolve(row);
-            })
-        })
-    }
-}
+function getMovieById(id) {
+    return new Promise((resolve, reject) => {
+        db.get(`select * from movies where id = ?`, [id], (err, row) => {
+            if (err) return reject(err);
+            resolve(row);
+        });
+    });
+};
+
 
 module.exports = { saveMovie, getMovieById };

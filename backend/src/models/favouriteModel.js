@@ -42,4 +42,4 @@ function getFavourite(sessionId) {
     });
 }
 
-module.exports = { addFavourite, removeFavourite, getFavourites };
+module.exports = { addFavourite, removeFavourite, getFavourite };

@@ -10,9 +10,9 @@ async function popular(req, res) {
     } catch (error) {
         res.status(500).json({ success: false, message: 'Failed to fetch popular movies' });
     }
-}
+};
 
-async function lastest(req, res) {
+async function latest(req, res) {
     try {
         const page = parseInt(req.query.page) || 1;
         const result = await tmdbService.fetchLatest(page);
@@ -21,7 +21,7 @@ async function lastest(req, res) {
     } catch (err) {
         res.status(500).json({ success: false, message: 'Failed to fetch latest movies' });
     }
-}
+};
 
 async function search(req, res) {
     try {
@@ -34,7 +34,7 @@ async function search(req, res) {
     } catch (err) {
         res.status(500).json({ success: false, message: 'Search failed' });
     }
-}
+};
 
 async function details(req, res) {
     try {
@@ -46,6 +46,6 @@ async function details(req, res) {
     } catch (err) {
         res.status(500).json({ success: false, message: 'Failed to fetch movie details' });
     }
-}
+};
 
 module.exports = { popular, latest, search, details };
