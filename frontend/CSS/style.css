@@ -168,6 +168,26 @@ hr {
     font-size: 12px;
 }
 
+.header-section {
+    color:#f9f9fc;
+display: flex;
+gap: 15px;
+flex-direction: column;
+}
+
+.btn{
+    border: none;
+    font-size: 1rem;
+    background-color: #a5a8b86d;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+}
+.btn:hover {
+    background-color: grey;
+    cursor: pointer;
+}
+
 /* HOME */
 
 .section-header {
@@ -188,18 +208,7 @@ hr {
     display: flex;
     gap: 11px;
 }
-.btn {
-    border: none;
-    font-size: 1rem;
-    background-color: #a5a8b86d;
-    padding: 10px;
-    border-radius: 5px;
-    color: white;
-}
-.btn:hover {
-    background-color: grey;
-    cursor: pointer;
-}
+
 .footer-section {
     display: flex;
     justify-content: center;
