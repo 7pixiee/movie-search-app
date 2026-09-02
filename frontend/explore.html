@@ -43,14 +43,19 @@
             <header class="header">
 
                 <div class="search-box">
-                    <input type="text" placeholder="Search movie...">
+                    <input type="text"
+                    id="movie-search"
+                     placeholder="Search movie...">
 
                     <button>⌕</button>
                 </div>
 
                 <div class="header-actions">
-                    <button>🔔</button>
-                    <img src="#" alt="Profile">
+                    <button>🕭</button>
+                    <div class="profile">
+                        <p>Pixie</p>
+                        <img src="images/profile.jpg" alt="Profile">
+                    </div>
                 </div>
             </header>
 
@@ -60,36 +65,36 @@
 
                     <div class="categories">
                         <div class="type">
-                            <button class="all btn">All</button>
-                            <button class="movies btn">Movies</button>
-                            <button class="series btn">Series</button>
+                            <button class="btn" id="all-btn">All</button>
+                            <button class="btn" id="movies-btn">Movies</button>
+                            <button class="btn" id="series-btn">Series</button>
                         </div>
 
                         <div class="sortBy">
 
-                            <button class="btn">
-                                <label for="genre">Genre</label>
+                            <div class="btn">
                                 <select id="genre-dropdown">
+                                    <option value="">Genre</option>
                                 </select>
-                            </button>
+                            </div>
 
-                            <button class="btn">
-                                <label for="years">Years</label>
+                            <div class="btn">
                                 <select id="years-dropdown">
+                                    <option value="">Years</option>
                                 </select>
-                            </button>
+                            </div>
 
-                            <button class="btn">
-                            <label for="rating">Rating</label>
-                            <select id="rating-dropdown">
-                            </select>
-                            </button>
+                            <div class="btn">
+                                <select id="rating-dropdown">
+                                    <option value="">Rating</option>
+                                </select>
+                            </div>
 
                         </div>
                     </div>
                 </div>
 
-                <div class="movie-grid">
+                <div class="movie-grid" id="explore-movies">
                 </div>
 
                 <div class="footer-section">
@@ -99,6 +104,9 @@
             </section>
         </main>
     </div>
+
+    <script src="JS/explore.js"></script>
+
 </body>
 
 </html>
