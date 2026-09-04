@@ -17,6 +17,8 @@ async function getExploreMovies() {
         movies = result.data;
 
         displayMovies(movies);
+        populateYears();
+        populateRating();
 
     } catch (error) {
         console.error("Explore API error:", error);
@@ -141,68 +143,84 @@ genreDropdown.addEventListener("change", () => {
 
 //GET YEARS
 
-async function getYears() {
-    try {
-        const response = await fetch(`${API_URL}/api/years`);
+function populateYears() {
+    const yearsDropdown = document.getElementById("years-dropdown");
 
-        const result = await response.json();
+    const years = [...new Set(  //Remove duplicate years
+        movies
+            //Extract release years
+            .map(function (movie) {
+                return movie.release_date?.slice(0, 4);
+            })
+            //Remove missing years
+            .filter(function (year) {
+                return Boolean(year);
+            })
+    )].sort((a, b) => b - a);  // newest to oldest
 
-        console.log("years:", result);
+    years.forEach(year => {
+        const option = document.createElement("option");
 
-        const yearDropdown = document.getElementById("years-dropdown");
+        option.value = year;
+        option.textContent = year;
 
-        result.data.forEach(year => {
-            const option = document.createElement("option");
-
-            option.value = year.id;
-            option.textContent = year.name;
-
-            yearDropdown.appendChild(option);
-        });
-
-    } catch (error) {
-        console.error("Years API error:", error);
-    }
+        yearsDropdown.appendChild(option);
+    });
 
 }
-
 
 //GET MOVIES BY YEARS 
-async function getMoviesByYears(yearId) {
-    try {
-    const response = await fetch(`
-        ${API_URL}/api/years/${yearId}/movies`
-    );
-
-    const result = response.json();
-
-    console.log("Years Movies:", result);
-
-    if(!result.success){
-        console.error("error.message");
-        return;
-    }
-
-    displayMovies(result.data);
-    }
-    catch(error){
-         console.error("Years movies API error:", error);
-    }
-}
 
 const yearsDropdown = document.getElementById("years-dropdown");
 
-yearsDropdown.addEventListener("change", () =>{
-   const yearId = yearsDropdown.value;
+yearsDropdown.addEventListener("change", () => {
+    const selectedYear = yearsDropdown.value;
 
-    if (!yearId) {
+    if (!selectedYear) {
         displayMovies(movies);
         return;
     }
 
-    getMoviesByYear(yearId);
+    const filteredMovies = movies.filter(movie =>
+        movie.release_date?.startsWith(selectedYear)
+    );
+
+    displayMovies(filteredMovies);
+})
+
+// GET RATING
+
+function populateRating() {
+    const ratingDropdown = document.getElementById("rating-dropdown");
+
+    for(let rating = 9; rating >= 1; rating--){
+        const option = document.createElement("option");
+
+        option.value = rating;
+        option.textContent = `${rating}+`;
+
+        ratingDropdown.appendChild(option);
+    }
+}
+
+//GET MOVIES BY RATING
+
+const ratingDropdown = document.getElementById("rating-dropdown");
+
+ratingDropdown.addEventListener("change", ()=> {
+    const selectRating = ratingDropdown.value;
+
+    if(!selectRating) {
+       displayMovies(movies);
+       return;
+    }
+
+    const filteredMovies = movies.filter(movie =>
+         movie.rating >= Number(selectRating)
+    );
+
+    displayMovies(filteredMovies)
 })
 
 getExploreMovies();
 getGenres();
-getYears();
