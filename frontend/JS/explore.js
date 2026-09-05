@@ -1,6 +1,8 @@
 const API_URL = "http://127.0.0.1:5000";
 
 let movies = [];
+let currentPage = 1;
+let totalPages = 1;
 
 async function getExploreMovies() {
     try {
@@ -29,11 +31,13 @@ async function getExploreMovies() {
             );
         }
 
+        currentPage = result.page;
+        totalPages = result.total_pages;
+        pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+
         movies = result.data;
 
         displayMovies(movies);
-        populateYears();
-        populateRating();
 
     } catch (error) {
         console.error("Explore API error:", error);
@@ -49,7 +53,7 @@ function displayMovies(movieList) {
 
     exploreMovies.innerHTML = "";
 
-    movieList.slice(0, 10).forEach(movie => {
+    movieList.forEach(movie => {
 
         const card = document.createElement("div");
 
@@ -109,7 +113,7 @@ async function getGenres() {
         result.data.forEach(genre => {
             const option = document.createElement("option");
 
-            option.value = genre.name;
+            option.value = genre.id;
             option.textContent = genre.name;
 
             genreDropdown.appendChild(option);
@@ -151,26 +155,16 @@ async function getMoviesByGenre(genreId) {
 function populateYears() {
     const yearsDropdown = document.getElementById("years-dropdown");
 
-    const years = [...new Set(  //Remove duplicate years
-        movies
-            //Extract release years
-            .map(function (movie) {
-                return movie.release_date?.slice(0, 4);
-            })
-            //Remove missing years
-            .filter(function (year) {
-                return Boolean(year);
-            })
-    )].sort((a, b) => b - a);  // newest to oldest
+    const currentYear = new Date().getFullYear();
 
-    years.forEach(year => {
+    for (let year = currentYear; year >= 1950; year--) {
         const option = document.createElement("option");
 
         option.value = year;
         option.textContent = year;
 
         yearsDropdown.appendChild(option);
-    });
+    }
 
 }
 
@@ -233,38 +227,93 @@ searchInput.addEventListener("keydown", (event) => {
 const genreDropdown = document.getElementById("genre-dropdown");
 const yearsDropdown = document.getElementById("years-dropdown");
 const ratingDropdown = document.getElementById("rating-dropdown");
+async function applyFilters() {
+    const genre = genreDropdown.value;
+    const year = yearsDropdown.value;
+    const rating = ratingDropdown.value;
 
-function applyFilters() {
-    let filteredMovies = movies;
+    const params = new URLSearchParams();
 
-    // Genre
-    if (genreDropdown.value) {
-        filteredMovies = filteredMovies.filter(movie =>
-            movie.genres.includes(genreDropdown.value)
-            
-        );
+    params.append("page", currentPage)
+
+    if (genre) {
+        params.append("genre", genre);
     }
 
-    // Year
-    if (yearsDropdown.value) {
-        filteredMovies = filteredMovies.filter(movie =>
-            movie.release_date?.startsWith(yearsDropdown.value)
-        );
+    if (year) {
+        params.append("year", year);
     }
 
-    // Rating
-    if (ratingDropdown.value) {
-        filteredMovies = filteredMovies.filter(movie =>
-            movie.rating >= Number(ratingDropdown.value)
-        );
+    if (rating) {
+        params.append("rating", rating);
     }
 
-    displayMovies(filteredMovies);
+    try {
+        const response = await fetch(
+            `${API_URL}/api/movies/popular?${params.toString()}`
+        );
+
+        const result = await response.json();
+
+        console.log("Filtered results:", result);
+
+        if (!result.success) {
+            console.error(result.message);
+            return;
+        }
+
+        currentPage = result.page;
+        totalPages = result.total_pages;
+        pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+
+        previousBtn.disabled = currentPage === 1;
+        nextBtn.disabled = currentPage === totalPages;
+
+        movies = result.data;
+        displayMovies(movies);
+
+    } catch (error) {
+        console.error("Filter error:", error);
+    }
 }
 
-genreDropdown.addEventListener("change", applyFilters);
-yearsDropdown.addEventListener("change", applyFilters);
-ratingDropdown.addEventListener("change", applyFilters);
+genreDropdown.addEventListener("change", () => {
+    currentPage = 1;
+    applyFilters();
+});
+
+yearsDropdown.addEventListener("change", () => {
+    currentPage = 1;
+    applyFilters();
+});
+
+ratingDropdown.addEventListener("change", () => {
+    currentPage = 1;
+    applyFilters();
+});
+
+// PAGINATION
+
+const previousBtn = document.querySelector(".previous");
+const nextBtn = document.querySelector(".next");
+const pageInfo = document.getElementById("page-info");
+
+previousBtn.addEventListener("click", () => {
+    if (currentPage > 1) {
+        currentPage--;
+        applyFilters();
+    }
+});
+
+nextBtn.addEventListener("click", () => {
+    if (currentPage < totalPages) {
+        currentPage++;
+        applyFilters();
+    }
+});
 
 getExploreMovies();
 getGenres();
+
+populateYears();
+populateRating();

@@ -331,10 +331,16 @@ hr {
     gap: 11px;
 }
 
-.footer-section {
+.pagination {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 50px;
     margin: 10px 0;
+    color: var(--text-primary);
+}
+
+.pagination button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
