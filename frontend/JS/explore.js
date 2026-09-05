@@ -14,6 +14,21 @@ async function getExploreMovies() {
             return;
         }
 
+        // BACKGROUND
+        const heroMovie = result.data.find(
+            movie => movie.title === "Spider-Man: Brand New Day"
+        );
+
+        if (heroMovie) {
+
+            const app = document.querySelector(".app");
+
+            app.style.setProperty(
+                "--app-background",
+                `url("${heroMovie.backdrop_url}")`
+            );
+        }
+
         movies = result.data;
 
         displayMovies(movies);
@@ -57,6 +72,8 @@ function displayMovies(movieList) {
 const allBtn = document.getElementById("all-btn");
 const moviesBtn = document.getElementById("movies-btn");
 const seriesBtn = document.getElementById("series-btn");
+const searchInput = document.getElementById("movie-search");
+const searchButton = document.querySelector(".search-box button");
 
 
 allBtn.addEventListener("click", () => {
@@ -92,7 +109,7 @@ async function getGenres() {
         result.data.forEach(genre => {
             const option = document.createElement("option");
 
-            option.value = genre.id;
+            option.value = genre.name;
             option.textContent = genre.name;
 
             genreDropdown.appendChild(option);
@@ -128,18 +145,6 @@ async function getMoviesByGenre(genreId) {
     }
 }
 
-const genreDropdown = document.getElementById("genre-dropdown");
-
-genreDropdown.addEventListener("change", () => {
-    const genreId = genreDropdown.value;
-
-    if (!genreId) {
-        displayMovies(movies);
-        return;
-    }
-
-    getMoviesByGenre(genreId);
-});
 
 //GET YEARS
 
@@ -169,31 +174,12 @@ function populateYears() {
 
 }
 
-//GET MOVIES BY YEARS 
-
-const yearsDropdown = document.getElementById("years-dropdown");
-
-yearsDropdown.addEventListener("change", () => {
-    const selectedYear = yearsDropdown.value;
-
-    if (!selectedYear) {
-        displayMovies(movies);
-        return;
-    }
-
-    const filteredMovies = movies.filter(movie =>
-        movie.release_date?.startsWith(selectedYear)
-    );
-
-    displayMovies(filteredMovies);
-})
-
 // GET RATING
 
 function populateRating() {
     const ratingDropdown = document.getElementById("rating-dropdown");
 
-    for(let rating = 9; rating >= 1; rating--){
+    for (let rating = 9; rating >= 1; rating--) {
         const option = document.createElement("option");
 
         option.value = rating;
@@ -203,24 +189,82 @@ function populateRating() {
     }
 }
 
-//GET MOVIES BY RATING
+// SEARCH MOVIES 
 
-const ratingDropdown = document.getElementById("rating-dropdown");
+async function searchMovies() {
+    const searchTerm = searchInput.value.toLowerCase().trim();
 
-ratingDropdown.addEventListener("change", ()=> {
-    const selectRating = ratingDropdown.value;
-
-    if(!selectRating) {
-       displayMovies(movies);
-       return;
+    if (!searchTerm) {
+        displayMovies(movies);
+        return;
     }
 
-    const filteredMovies = movies.filter(movie =>
-         movie.rating >= Number(selectRating)
-    );
+    try {
+        const response = await fetch(
+            `${API_URL}/api/movies/search?query=${encodeURIComponent(searchTerm)}`
+        );
 
-    displayMovies(filteredMovies)
-})
+        const result = await response.json();
+
+        console.log("Search results:", result);
+
+        if (!result.success) {
+            console.error(result.message);
+            return;
+        }
+
+        displayMovies(result.data);
+
+    } catch (error) {
+        console.error("Search error:", error);
+    }
+}
+
+searchButton.addEventListener("click", searchMovies);
+
+searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        searchMovies();
+    }
+});
+
+// ALL FILTERS
+
+const genreDropdown = document.getElementById("genre-dropdown");
+const yearsDropdown = document.getElementById("years-dropdown");
+const ratingDropdown = document.getElementById("rating-dropdown");
+
+function applyFilters() {
+    let filteredMovies = movies;
+
+    // Genre
+    if (genreDropdown.value) {
+        filteredMovies = filteredMovies.filter(movie =>
+            movie.genres.includes(genreDropdown.value)
+            
+        );
+    }
+
+    // Year
+    if (yearsDropdown.value) {
+        filteredMovies = filteredMovies.filter(movie =>
+            movie.release_date?.startsWith(yearsDropdown.value)
+        );
+    }
+
+    // Rating
+    if (ratingDropdown.value) {
+        filteredMovies = filteredMovies.filter(movie =>
+            movie.rating >= Number(ratingDropdown.value)
+        );
+    }
+
+    displayMovies(filteredMovies);
+}
+
+genreDropdown.addEventListener("change", applyFilters);
+yearsDropdown.addEventListener("change", applyFilters);
+ratingDropdown.addEventListener("change", applyFilters);
 
 getExploreMovies();
 getGenres();
