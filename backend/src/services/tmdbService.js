@@ -35,6 +35,26 @@ async function fetchPopular(page = 1) {
     };
 }
 
+async function fetchPopularFiltered({ page = 1, genre, year, rating } = {}) {
+    const genreMap = await getGenreMap();
+    const params = {
+        page: parseInt(page) || 1,
+        sort_by: 'popularity.desc'
+    };
+    if (genre) params.with_genres = genre;
+    if (year) params.primary_release_year = year;
+    if (rating) params['vote_average.gte'] = rating;
+
+    const endpoint = (genre || year || rating) ? '/discover/movie' : '/movie/popular';
+    const res = await tmdb.get(endpoint, { params });
+    return {
+        page: res.data.page,
+        total_pages: res.data.total_pages,
+        total_results: res.data.total_results,
+        results: res.data.results.map(m => formatMovie(m, genreMap))
+    };
+}
+
 async function fetchLatest(page = 1) {
     const genreMap = await getGenreMap();
     const res = await tmdb.get('/discover/movie', { params: { page, sort_by: 'release_date.desc' } });
@@ -80,4 +100,4 @@ async function fetchMovieDetails(tmdbId) {
     return formatMovie({ ...res.data, genre_ids: res.data.genres.map(g => g.id) }, genreMap);
 }
 
-module.exports = { fetchPopular, fetchLatest, searchMovies, fetchByGenre, fetchGenreList, fetchMovieDetails };
+module.exports = { fetchPopular, fetchPopularFiltered, fetchLatest, searchMovies, fetchByGenre, fetchGenreList, fetchMovieDetails };

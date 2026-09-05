@@ -1,10 +1,22 @@
 const tmdbService = require('../services/tmdbService');
 const movieModel = require('../models/movieModel');
+const genreModel = require('../models/genreModel');
 
 async function popular(req, res) {
     try {
         const page = parseInt(req.query.page) || 1;
-        const result = await tmdbService.fetchPopular(page);
+        let genre = req.query.genre;
+        const year = req.query.year;
+        const rating = req.query.rating;
+
+        if (genre) {
+            const localGenre = await genreModel.getGenreById(genre);
+            if (localGenre) {
+                genre = localGenre.tmdb_genre_id;
+            }
+        }
+
+        const result = await tmdbService.fetchPopularFiltered({ page, genre, year, rating });
         for (const movie of result.results) await movieModel.saveMovie(movie);
         res.json({ success: true, page: result.page, total_pages: result.total_pages, total_results: result.total_results, data: result.results });
     } catch (err) {
