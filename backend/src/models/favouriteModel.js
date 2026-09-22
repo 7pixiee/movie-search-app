@@ -32,7 +32,7 @@ function removeFavourite(sessionId, movieId) {
 function getFavourites(sessionId) {
     return new Promise((resolve, reject) => {
         db.all(
-            `SELECT movies.* FROM favourites JOIN movies ON favourites.movie_id = movies.id WHERE favourites.session_id = ?`,
+            `SELECT movies.* FROM favourites JOIN movies ON favourites.movie_id = movies.tmdb_id WHERE favourites.session_id = ?`,
             [sessionId],
             (err, rows) => {
                 if (err) return reject(err);
@@ -41,5 +41,6 @@ function getFavourites(sessionId) {
         );
     });
 }
+
 
 module.exports = { addFavourite, removeFavourite, getFavourites };
