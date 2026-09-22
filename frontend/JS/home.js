@@ -16,10 +16,7 @@ async function getPopularMovies() {
 
         const app = document.querySelector(".app");
 
-        app.style.setProperty(
-            "--app-background",
-            `url("${heroMovie.backdrop_url}")`
-        );
+       app.style.backgroundImage = `url("${heroMovie.backdrop_url}")`;
 
         const heroImage = document.querySelector(".hero-img");
         const heroName = document.querySelector(".movie-name");
@@ -33,17 +30,26 @@ async function getPopularMovies() {
     const popularMovies = document.getElementById("popular-movies")
 
     // MOVIE CARDS
-    result.data.slice(0, 5).forEach(movie => {
-        const card = document.createElement("div");
+result.data.slice(0, 5).forEach(movie => {
 
-        card.classList.add("movie-card");
+    const card = document.createElement("div");
+    card.classList.add("movie-card");
 
+    if (movie.poster_url) {
         card.innerHTML = `
-    <img src="${movie.poster_url}" alt="${movie.title}">
-    `;
+            <img src="${movie.poster_url}" alt="${movie.title}">
+        `;
+    } else {
+        card.innerHTML = `
+            <div class="no-poster">
+                <span>🎬</span>
+                <p>No Poster Available</p>
+            </div>
+        `;
+    }
 
-        popularMovies.appendChild(card);
-    });
+    popularMovies.appendChild(card);
+});
 
 }
 
@@ -56,18 +62,25 @@ async function getLatestMovies() {
 
     const latestMovies = document.getElementById("latest-movies")
 
-     result.data.slice(0, 5).forEach(movie => {
-        const card = document.createElement("div");
+     result.data.slice(0, 5).forEach(movie=> {
+    const card = document.createElement("div");
+    card.classList.add("movie-card");
 
-        card.classList.add("movie-card");
-
+    if (movie.poster_url) {
         card.innerHTML = `
-    <img src="${movie.poster_url}" alt="${movie.title}">
-    `;
+            <img src="${movie.poster_url}" alt="${movie.title}">
+        `;
+    } else {
+        card.innerHTML = `
+            <div class="no-poster">
+                <span>🎬</span>
+                <p>No Poster Available</p>
+            </div>
+        `;
+    }
 
-        latestMovies.appendChild(card);
-    });
-
+    latestMovies.appendChild(card);
+});
 
 }
 

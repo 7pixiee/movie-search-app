@@ -39,7 +39,6 @@ body {
     position: absolute;
     inset: -30px;
 
-    background-image: var(--app-background);
     background-size: cover;
     background-position: center;
 
@@ -213,6 +212,31 @@ hr {
     transition: transform 0.2s ease;
 }
 
+.no-poster {
+    width: 100%;
+    height: 100%;
+    min-height: 250px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background: #252544;
+    color: #aaa;
+    text-align: center;
+}
+
+.no-poster span {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.no-poster p {
+    margin: 0;
+    font-size: 14px;
+}
+
 .favorite-btn {
     position: absolute;
     top: 10px;
@@ -268,6 +292,11 @@ hr {
     padding: 10px;
     border-radius: 5px;
     color: white;
+}
+
+.type .btn.active {
+    background-color:#a5a8b8;
+    color: #000;
 }
 
 .btn:hover {
@@ -347,6 +376,49 @@ hr {
 .sortBy {
     display: flex;
     gap: 11px;
+}
+
+.sortBy .btn {
+    background: #2d2d4a;
+    border-radius: 6px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.sortBy select {
+    appearance: none;
+    -webkit-appearance: none;
+
+    background: transparent;
+    color: white;
+    border: none;
+    outline: none;
+
+    padding: 10px 36px 10px 14px;
+    font-size: 15px;
+    cursor: pointer;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+.sortBy select:hover {
+    background-color: #3a3a58;
+}
+
+.sortBy select option {
+    background: #252544;
+    color: white;
+}
+
+.sortBy .btn.filter-active {
+    background: #a5a8b8;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+.sortBy .btn.filter-active select {
+    color: #fff;
 }
 
 .pagination {

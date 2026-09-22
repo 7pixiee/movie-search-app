@@ -32,10 +32,7 @@ async function getExploreMovies() {
     if (heroMovie) {
       const app = document.querySelector(".app");
 
-      app.style.setProperty(
-        "--app-background",
-        `url("${heroMovie.backdrop_url}")`,
-      );
+     app.style.backgroundImage = `url("${heroMovie.backdrop_url}")`;
     }
 
     currentPage = result.page;
@@ -167,20 +164,33 @@ const seriesBtn = document.getElementById("series-btn");
 const searchInput = document.getElementById("movie-search");
 const searchButton = document.querySelector(".search-box button");
 
+function setActiveButton(button) {
+    document.querySelectorAll(".type .btn").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
+}
+
+allBtn.classList.add("active");
+
 allBtn.addEventListener("click", () => {
-  displayMovies(movies);
+    setActiveButton(allBtn);
+    displayMovies(movies);
 });
 
 moviesBtn.addEventListener("click", () => {
-  const filteredMovies = movies.filter((movie) => movie.type === "movie");
+    setActiveButton(moviesBtn);
 
-  displayMovies(filteredMovies);
+    const filteredMovies = movies.filter(movie => movie.type === "movie");
+    displayMovies(filteredMovies);
 });
 
 seriesBtn.addEventListener("click", () => {
-  const filteredSeries = movies.filter((movie) => movie.type === "series");
+    setActiveButton(seriesBtn);
 
-  displayMovies(filteredSeries);
+    const filteredSeries = movies.filter(movie => movie.type === "series");
+    displayMovies(filteredSeries);
 });
 
 //GET GENRES
@@ -304,6 +314,7 @@ searchInput.addEventListener("keydown", (event) => {
 const genreDropdown = document.getElementById("genre-dropdown");
 const yearsDropdown = document.getElementById("years-dropdown");
 const ratingDropdown = document.getElementById("rating-dropdown");
+
 async function applyFilters() {
   const genre = genreDropdown.value;
   const year = yearsDropdown.value;
@@ -353,20 +364,34 @@ async function applyFilters() {
   }
 }
 
+function updateFilterStyle(select) {
+    const container = select.closest(".btn");
+
+    if (select.value) {
+        container.classList.add("filter-active");
+    } else {
+        container.classList.remove("filter-active");
+    }
+}
+
 genreDropdown.addEventListener("change", () => {
-  currentPage = 1;
-  applyFilters();
+    currentPage = 1;
+    updateFilterStyle(genreDropdown);
+    applyFilters();
 });
 
 yearsDropdown.addEventListener("change", () => {
-  currentPage = 1;
-  applyFilters();
+    currentPage = 1;
+    updateFilterStyle(yearsDropdown);
+    applyFilters();
 });
 
 ratingDropdown.addEventListener("change", () => {
-  currentPage = 1;
-  applyFilters();
+    currentPage = 1;
+    updateFilterStyle(ratingDropdown);
+    applyFilters();
 });
+
 
 // PAGINATION
 
