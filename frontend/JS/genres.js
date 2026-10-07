@@ -30,6 +30,29 @@ async function getBackground() {
   }
 }
 
+// SEARCH MOVIES 
+
+const genreSearch = document.getElementById("genre-search");
+const genreSearchBtn = document.getElementById("genre-search-btn");
+
+function search() {
+    const query = genreSearch.value.trim();
+
+    if (!query) return;
+
+    window.location.href =
+        `explore.html?search=${encodeURIComponent(query)}`;
+}
+
+genreSearchBtn.addEventListener("click", search);
+
+genreSearch.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        search();
+    }
+});
+
+
 async function getGenres() {
     try {
         const response = await fetch(`${API_URL}/api/genres`);

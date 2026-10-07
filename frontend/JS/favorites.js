@@ -36,6 +36,30 @@ async function getBackground() {
   }
 }
 
+
+// SEARCH MOVIES 
+
+const favSearch = document.getElementById("fav-search");
+const favSearchBtn = document.getElementById("fav-search-btn");
+
+function search() {
+    const query = favSearch.value.trim();
+
+    if (!query) return;
+
+    window.location.href =
+        `explore.html?search=${encodeURIComponent(query)}`;
+}
+
+favSearchBtn.addEventListener("click", search);
+
+favSearch.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        search();
+    }
+});
+
+
 async function getFavourites() {
   try {
     const response = await fetch(`${API_URL}/api/favourites`, {

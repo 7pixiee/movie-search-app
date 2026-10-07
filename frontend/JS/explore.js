@@ -2,6 +2,7 @@ const API_URL = "http://127.0.0.1:5000";
 
 const urlParams = new URLSearchParams(window.location.search);
 const selectedGenre = urlParams.get("genre");
+const searchQuery = urlParams.get("search");
 
 let sessionId = localStorage.getItem("sessionId");
 
@@ -424,10 +425,17 @@ nextBtn.addEventListener("click", () => {
 
 async function initializeExplore() {
     await getFavourites();
-    await getExploreMovies();
+
     getGenres();
     populateYears();
     populateRating();
+
+    if (searchQuery) {
+        searchInput.value = searchQuery;
+        await searchMovies();
+    } else {
+        await getExploreMovies();
+    }
 }
 
 initializeExplore();

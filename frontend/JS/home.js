@@ -1,6 +1,28 @@
 const API_URL = "http://127.0.0.1:5000";
 
 
+// SEARCH MOVIES 
+
+const homeSearch = document.getElementById("home-search");
+const homeSearchBtn = document.getElementById("home-search-btn");
+
+function searchFromHome() {
+    const query = homeSearch.value.trim();
+
+    if (!query) return;
+
+    window.location.href =
+        `explore.html?search=${encodeURIComponent(query)}`;
+}
+
+homeSearchBtn.addEventListener("click", searchFromHome);
+
+homeSearch.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        searchFromHome();
+    }
+});
+
 //  GET POPULAR MOVIES
 async function getPopularMovies() {
     const response = await fetch(`${API_URL}/api/movies/popular`);
