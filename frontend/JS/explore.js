@@ -1,5 +1,8 @@
 const API_URL = "http://127.0.0.1:5000";
 
+const urlParams = new URLSearchParams(window.location.search);
+const selectedGenre = urlParams.get("genre");
+
 let sessionId = localStorage.getItem("sessionId");
 
 if (!sessionId) {
@@ -30,9 +33,9 @@ async function getExploreMovies() {
     );
 
     if (heroMovie) {
-      const app = document.querySelector(".app");
+      const appBackground = document.querySelector(".app-background");
 
-     app.style.backgroundImage = `url("${heroMovie.backdrop_url}")`;
+     appBackground.style.backgroundImage = `url("${heroMovie.backdrop_url}")`;
     }
 
     currentPage = result.page;
@@ -213,6 +216,12 @@ async function getGenres() {
 
       genreDropdown.appendChild(option);
     });
+
+    // Select genre coming from Genres page
+    if (selectedGenre) {
+        genreDropdown.value = selectedGenre;
+        updateFilterStyle(genreDropdown);
+    }
   } catch (error) {
     console.error("Genre API error:", error);
   }
@@ -316,7 +325,7 @@ const yearsDropdown = document.getElementById("years-dropdown");
 const ratingDropdown = document.getElementById("rating-dropdown");
 
 async function applyFilters() {
-  const genre = genreDropdown.value;
+  const genre = genreDropdown.value || selectedGenre;
   const year = yearsDropdown.value;
   const rating = ratingDropdown.value;
 

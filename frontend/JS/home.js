@@ -14,9 +14,9 @@ async function getPopularMovies() {
 
     if (heroMovie) {
 
-        const app = document.querySelector(".app");
+        const appBackground = document.querySelector(".app-background");
 
-       app.style.backgroundImage = `url("${heroMovie.backdrop_url}")`;
+       appBackground.style.backgroundImage = `url("${heroMovie.backdrop_url}")`;
 
         const heroImage = document.querySelector(".hero-img");
         const heroName = document.querySelector(".movie-name");

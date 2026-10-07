@@ -27,9 +27,9 @@ async function getBackground() {
     );
 
     if (heroMovie) {
-      const app = document.querySelector(".app");
+      const appBackground = document.querySelector(".app-background");
 
-      app.style.backgroundImage = `url("${heroMovie.backdrop_url}")`;
+      appBackground.style.backgroundImage = `url("${heroMovie.backdrop_url}")`;
     }
   } catch (error) {
     console.error("Explore API error:", error);

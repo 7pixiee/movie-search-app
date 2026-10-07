@@ -1,0 +1,68 @@
+.categories {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.type,
+.sortBy {
+    display: flex;
+    gap: 11px;
+}
+
+.sortBy .btn {
+    background: #2d2d4a;
+    border-radius: 6px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.sortBy select {
+    appearance: none;
+    -webkit-appearance: none;
+
+    background: transparent;
+    color: white;
+    border: none;
+    outline: none;
+
+    padding: 10px 36px 10px 14px;
+    font-size: 15px;
+    cursor: pointer;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+.sortBy select:hover {
+    background-color: #3a3a58;
+}
+
+.sortBy select option {
+    background: #252544;
+    color: white;
+}
+
+.sortBy .btn.filter-active {
+    background: #a5a8b8;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+.sortBy .btn.filter-active select {
+    color: #fff;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    margin: 10px 0;
+    color: var(--text-primary);
+}
+
+.pagination button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
