@@ -1,41 +1,29 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+const mongoose = require('mongoose');
+const dns = require('dns');
 
-const db = new sqlite3.Database(path.join(__dirname, '../../database.db'), (err) => {
-    if (err) console.error('DB connection failed:', err.message);
-    else console.log('Connected to SQLite database');
-});
+// Fix Windows DNS SRV lookup issue for MongoDB Atlas cluster
+try {
+    dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (e) {
+    // Ignore if not supported
+}
 
-db.serialize(() => {
-    db.run(`CREATE TABLE IF NOT EXISTS movies (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    tmdb_id INTEGER UNIQUE,
-    title TEXT,
-    type TEXT,
-    poster_url TEXT,
-    backdrop_url TEXT,
-    description TEXT,
-    release_date TEXT,
-    rating REAL
-  )`);
+const connectDB = async () => {
+    try {
+        const mongoUrl = process.env.MONGODB_URL || process.env.MONGO_URI || process.env.MONGODB_URI;
+        if (!mongoUrl) {
+            console.error('MONGODB_URL is missing in environment variables');
+            return;
+        }
+        await mongoose.connect(mongoUrl, {
+            dbName: 'movieapp'
+        });
+        console.log('Connected to MongoDB database');
+    } catch (err) {
+        console.error('MongoDB connection failed:', err.message);
+    }
+};
 
-    db.run(`CREATE TABLE IF NOT EXISTS genres (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    tmdb_genre_id INTEGER UNIQUE,
-    name TEXT
-  )`);
+connectDB();
 
-    db.run(`CREATE TABLE IF NOT EXISTS movie_genres (
-    movie_id INTEGER,
-    genre_id INTEGER
-  )`);
-
-    db.run(`CREATE TABLE IF NOT EXISTS favourites (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    session_id TEXT,
-    movie_id INTEGER,
-    UNIQUE(session_id, movie_id)
-  )`);
-});
-
-module.exports = db;
+module.exports = mongoose;
