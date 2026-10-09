@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:5000";
+const API_URL = "https://nyxflix-api.vercel.app";
 
 const urlParams = new URLSearchParams(window.location.search);
 const selectedGenre = urlParams.get("genre");

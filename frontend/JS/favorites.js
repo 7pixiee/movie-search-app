@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:5000";
+const API_URL = "https://nyxflix-api.vercel.app";
 
 let sessionId = localStorage.getItem("sessionId");
 let favouriteMovies = [];
